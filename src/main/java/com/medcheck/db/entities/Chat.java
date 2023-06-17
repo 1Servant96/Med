@@ -1,6 +1,6 @@
-package com.medcheck.db.entities;
+package main.java.com.medcheck.db.entities;
 
-import jakarta.persistence.Id;
+import javax.persistence.Id;
 
 public class Chat {
     @Id
