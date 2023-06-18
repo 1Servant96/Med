@@ -1,9 +1,18 @@
-package com.medcheck.service;
+package com.medcheck.db.service;
 
-import com.medcheck.dto.LoginResponse;
+import com.medcheck.dto.request.RegisterRequest;
 import com.medcheck.dto.request.UserRequest;
+import com.medcheck.dto.response.AuthResponse;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 
-public interface UserService {
+public interface UserService extends UserDetailsService {
 
-    LoginResponse login(UserRequest request);
+    AuthResponse login(UserRequest request);
+
+    AuthResponse registration(RegisterRequest registerRequest);
+
+    @Override
+    UserDetails loadUserByUsername(String username) throws UsernameNotFoundException;
 }

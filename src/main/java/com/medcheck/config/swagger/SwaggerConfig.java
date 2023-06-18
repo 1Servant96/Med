@@ -1,12 +1,13 @@
-package main.java.com.medcheck.config.swagger;
+package com.medcheck.config.swagger;
 
-import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
 import io.swagger.v3.oas.models.Components;
 import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.info.Info;
 import io.swagger.v3.oas.models.security.SecurityRequirement;
 import io.swagger.v3.oas.models.security.SecurityScheme;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+
 import java.util.Collections;
 
 @Configuration
@@ -18,9 +19,8 @@ public class SwaggerConfig {
         return new OpenAPI()
                 .components(new Components()
                         .addSecuritySchemes(API_KEY, apiKeySecuritySchema()))
-                .info(new Info().title("MedCheck"))
+                .info(new Info().title("Kooztart"))
                 .security(Collections.singletonList(new SecurityRequirement().addList(API_KEY)));
-        // then apply it. If you don't apply it will not be added to the header in cURL
     }
 
     public SecurityScheme apiKeySecuritySchema() {
