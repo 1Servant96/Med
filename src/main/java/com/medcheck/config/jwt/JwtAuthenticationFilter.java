@@ -1,4 +1,4 @@
-package com.medcheck.config.jwt;
+package main.java.com.medcheck.config.jwt;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.lang.NonNull;

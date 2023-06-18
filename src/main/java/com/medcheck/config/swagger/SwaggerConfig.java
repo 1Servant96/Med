@@ -1,4 +1,4 @@
-package com.medcheck.config.swagger;
+package main.java.com.medcheck.config.swagger;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
