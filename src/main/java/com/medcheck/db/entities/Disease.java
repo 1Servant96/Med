@@ -1,4 +1,4 @@
-package com.medcheck.db.entities;
+package main.java.com.medcheck.db.entities;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;

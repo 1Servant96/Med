@@ -1,4 +1,4 @@
-package com.medcheck;
+package main.java.com.medcheck;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
