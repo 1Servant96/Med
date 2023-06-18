@@ -1,9 +1,9 @@
-package com.example.airbnbb7.api;
+package com.medcheck.api;
 
-import com.example.airbnbb7.db.service.UserService;
-import com.example.airbnbb7.db.service.serviceImpl.UserServiceImpl;
-import com.example.airbnbb7.dto.request.UserRequest;
-import com.example.airbnbb7.dto.response.LoginResponse;
+import com.medcheck.db.service.UserService;
+import com.medcheck.dto.request.RegisterRequest;
+import com.medcheck.dto.request.UserRequest;
+import com.medcheck.dto.response.AuthResponse;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
@@ -18,17 +18,16 @@ public class AuthApi {
 
     private final UserService userService;
 
-    private final UserServiceImpl authService;
-
     @PostMapping("/login")
     @Operation(summary = "Sign in", description = "Any user can authenticate")
-    public LoginResponse login(@RequestBody UserRequest request) {
+    public AuthResponse login(@RequestBody UserRequest request) {
         return userService.login(request);
     }
 
-    @PostMapping("/google")
-    @Operation(summary = "Sign up & sign in", description = "Authenticate via Google")
-    public LoginResponse authResponse(@RequestParam String tokenId) {
-        return authService.authWithGoogle(tokenId);
+    @PostMapping("/registration")
+    @Operation(summary = "Sign up", description = "Any user can register")
+    public AuthResponse create(@RequestBody RegisterRequest request) {
+        return userService.registration(request);
     }
+
 }

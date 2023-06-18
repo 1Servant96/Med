@@ -1,6 +1,6 @@
 package com.medcheck.config.security;
 
-import com.example.gadgetariumb7.db.repository.UserRepository;
+import com.medcheck.db.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

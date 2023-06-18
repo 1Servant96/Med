@@ -1,4 +1,4 @@
-package com.example.airbnbb7.exceptions;
+package com.medcheck.exceptions;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ResponseStatus;

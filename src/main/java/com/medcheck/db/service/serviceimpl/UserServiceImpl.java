@@ -1,14 +1,19 @@
-package com.medcheck.service.serviceimpl;
+package com.medcheck.db.service.serviceimpl;
 
 import com.medcheck.config.jwt.JwtService;
+import com.medcheck.db.entities.Role;
 import com.medcheck.db.entities.User;
-import com.medcheck.db.repository.RoleRepository;
 import com.medcheck.db.repository.UserRepository;
-import com.medcheck.dto.LoginResponse;
+import com.medcheck.db.service.UserService;
+import com.medcheck.dto.request.RegisterRequest;
 import com.medcheck.dto.request.UserRequest;
-import com.medcheck.service.UserService;
+import com.medcheck.dto.response.AuthResponse;
+import com.medcheck.exceptions.BadCredentialsException;
+import com.medcheck.exceptions.NotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -22,13 +27,11 @@ public class UserServiceImpl implements UserService {
 
     private final JwtService jwtService;
 
-    private final RoleRepository roleRepository;
-
     @Override
-    public LoginResponse login(UserRequest request) {
-        UsernamePasswordAuthenticationToken token = new UsernamePasswordAuthenticationToken(request.getEmail(), request.getPassword());
+    public AuthResponse login(UserRequest request) {
+        UsernamePasswordAuthenticationToken token = new UsernamePasswordAuthenticationToken(request.getFirstName() + " " + request.getLastName(), request.getPassword());
         User user = userRepository.findByEmail(token.getName()).orElseThrow(() -> {
-            throw new NotFoundException("the user with this email was not found");
+            throw new NotFoundException("the user with this name was not found");
         });
         if (request.getPassword() == null) {
             throw new NotFoundException("Password must not be empty");
@@ -36,6 +39,21 @@ public class UserServiceImpl implements UserService {
         if (!passwordEncoder.matches(request.getPassword(), user.getPassword())) {
             throw new BadCredentialsException("invalid password");
         }
-        return new LoginResponse(jwtService.generateToken(user), user.getEmail(), roleRepository.findRoleByUserId(user.getId()).getNameOfRole());
+        return new AuthResponse(jwtService.generateToken(user), user.getFirstName() + " " + user.getLastName(), userRepository.findRoleByUserEmail(user.getUsername()).getRoleName());
     }
+
+    @Override
+    public AuthResponse registration(RegisterRequest registerRequest) {
+        User user = new User(registerRequest.getPassword(), registerRequest.getFirstName(), registerRequest.getLastName());
+        user.setPassword(passwordEncoder.encode(registerRequest.getPassword()));
+        user.setRole(new Role("USER"));
+        userRepository.save(user);
+        return new AuthResponse(jwtService.generateToken(user), user.getFirstName() + " " + user.getLastName(), user.getRole().getRoleName());
+    }
+
+    @Override
+    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+        return userRepository.findByEmail(username).orElseThrow(() -> new UsernameNotFoundException("not found name"));
+    }
+
 }

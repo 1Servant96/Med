@@ -1,9 +1,10 @@
-package com.example.airbnbb7.exceptions.handler;
+package com.medcheck.exceptions.handler;
 
-import com.example.airbnbb7.exceptions.BadCredentialsException;
-import com.example.airbnbb7.exceptions.BadRequestException;
-import com.example.airbnbb7.exceptions.ExceptionResponse;
-import com.example.airbnbb7.exceptions.NotFoundException;
+
+import com.medcheck.exceptions.BadCredentialsException;
+import com.medcheck.exceptions.BadRequestException;
+import com.medcheck.exceptions.ExceptionResponse;
+import com.medcheck.exceptions.NotFoundException;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;

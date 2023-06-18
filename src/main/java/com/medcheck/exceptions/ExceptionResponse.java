@@ -1,4 +1,4 @@
-package com.example.airbnbb7.exceptions;
+package com.medcheck.exceptions;
 
 import lombok.Getter;
 import lombok.Setter;
