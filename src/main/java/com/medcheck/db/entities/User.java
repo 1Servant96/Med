@@ -1,13 +1,16 @@
-package main.java.com.medcheck.db.entities;
+package com.medcheck.db.entities;
 
-import jakarta.persistence.*;
 import lombok.*;
 import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
+import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 
-import static jakarta.persistence.CascadeType.*;
+import static javax.persistence.CascadeType.*;
 
 @Entity
 @Builder
@@ -25,59 +28,56 @@ public class User implements UserDetails {
     private String firstName;
     private String lastName;
     private String phoneNumber;
-    private String email;
 
     @Column(length = 10000)
     private String image;
     private String address;
 
     @ManyToOne(cascade = {PERSIST, REFRESH, MERGE, DETACH})
-    @JoinColumn(name = "role_id")
     private Role role;
 
+    public User(String password, String firstName, String lastName) {
+        this.password = password;
+        this.firstName = firstName;
+        this.lastName = lastName;
+    }
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return null;
+        List<SimpleGrantedAuthority> grantedAuthorities = new ArrayList<>();
+
+            grantedAuthorities.add(new SimpleGrantedAuthority(role.getRoleName()));
+        return grantedAuthorities;
     }
 
     @Override
     public String getPassword() {
-        return null;
+        return password;
     }
 
     @Override
     public String getUsername() {
-        return null;
+        return firstName + " " + lastName;
     }
 
     @Override
     public boolean isAccountNonExpired() {
-        return false;
+        return true;
     }
 
     @Override
     public boolean isAccountNonLocked() {
-        return false;
+        return true;
     }
 
     @Override
     public boolean isCredentialsNonExpired() {
-        return false;
+        return true;
     }
 
     @Override
     public boolean isEnabled() {
-        return false;
+        return true;
     }
 
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    @Id
-    public Long getId() {
-        return id;
-    }
 }
